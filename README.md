@@ -9,7 +9,7 @@ A portable, deterministic TypeScript core for turning authorized GitHub activity
 - Bounded evidence packets, obvious-low-value filtering, and in-memory published/proposed deduplication.
 - Frozen public-evidence fixtures and deterministic evaluations.
 
-It has no model calls, credentials, GitHub writes, web framework, Vercel, workflow scheduler, database, dashboard, or target-site serializer.
+The default suite has no model calls, credentials, GitHub writes, web framework, Vercel, workflow scheduler, database, dashboard, or target-site serializer. Phase 2 adds an opt-in OpenAI evaluation adapter; it is disabled unless `RUN_LIVE_EVAL=1` is explicitly set.
 
 ## Development
 
@@ -20,6 +20,8 @@ npm ci
 npm run check
 npm run build
 ```
+
+Live evaluation is deliberately separate from CI. It requires an existing `OPENAI_API_KEY`, an explicit model name, current per-million-token price inputs, and an explicit evaluation cap; it never writes to GitHub or the target site.
 
 Repository text is untrusted evidence, never executable instruction. A provider must normalize public facts into `ActivityEvent` before the core sees them. The source registry is authorization: unknown and self-reporting repositories are disabled by default.
 

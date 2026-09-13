@@ -6,3 +6,8 @@ export * from "./core/source-ref.js";
 export * from "./policy/repositories.js";
 export * from "./publication/dedupe.js";
 export * from "./publication/proposal.js";
+export * from "./semantic/budget.js";
+export * from "./semantic/pipeline.js";
+export * from "./semantic/prepare.js";
+export * from "./semantic/types.js";
+export * from "./semantic/validate.js";

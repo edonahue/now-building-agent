@@ -13,10 +13,12 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",
+    "eval:live": "npm run build && node dist/cli/live-eval.js",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },
   "dependencies": {
+    "openai": "^6.18.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
