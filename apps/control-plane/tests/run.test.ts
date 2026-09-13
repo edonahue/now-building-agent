@@ -35,6 +35,8 @@ describe("daily control-plane run", () => {
       draftCount: 0,
     });
     expect(store.value?.errorCode).toBeUndefined();
+    expect(store.value?.observedThrough).toBe("2026-09-13T10:15:00.000Z");
+    expect(store.value?.repositoryResults).toHaveLength(4);
   });
   it("does not make an unstructured direct commit a merged episode", () => {
     expect(clusterEvents([event])).toHaveLength(1);

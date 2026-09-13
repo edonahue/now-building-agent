@@ -1,14 +1,14 @@
 import { authorized, runtimeConfig } from "../src/config.js";
-import type { HealthStore } from "../src/contracts.js";
-function blobStore(): HealthStore {
-  throw new Error("Vercel Blob private-store adapter is not configured");
-}
+import { VercelBlobHealthStore } from "../src/health.js";
+import { VercelPrivateBlobClient } from "../src/vercel-adapters.js";
 
 export default async function handler(request: Request): Promise<Response> {
   const config = runtimeConfig();
   if (!authorized(request, config.healthSecret))
     return new Response("Unauthorized", { status: 401 });
-  const state = await blobStore().get();
+  const state = await new VercelBlobHealthStore(
+    new VercelPrivateBlobClient(),
+  ).get();
   return Response.json(state ?? { schemaVersion: 1, status: "unknown" }, {
     headers: { "cache-control": "no-store" },
   });

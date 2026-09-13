@@ -22,6 +22,12 @@ export interface HealthState {
   readonly eventCount: number;
   readonly candidateCount: number;
   readonly draftCount: number;
+  /** Latest timestamp through which at least one enabled source was scanned. */
+  readonly observedThrough?: string;
+  readonly repositoryResults?: readonly {
+    readonly repository: string;
+    readonly status: "observed" | "failed";
+  }[];
   readonly failedRepositories?: readonly string[];
   readonly errorCode?: string;
 }

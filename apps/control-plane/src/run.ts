@@ -82,6 +82,13 @@ export async function runDaily(options: DailyRunOptions): Promise<RunResult> {
     const failedRepositories = observations.flatMap((observation, index) =>
       observation.status === "rejected" ? [repositories[index]!] : [],
     );
+    const repositoryResults = observations.map(
+      (observation, index) =>
+        ({
+          repository: repositories[index]!,
+          status: observation.status === "fulfilled" ? "observed" : "failed",
+        }) as const,
+    );
     const events = observations.flatMap((observation) =>
       observation.status === "fulfilled" ? observation.value : [],
     );
@@ -107,6 +114,8 @@ export async function runDaily(options: DailyRunOptions): Promise<RunResult> {
       eventCount: events.length,
       candidateCount: candidates.length,
       draftCount: drafts.length,
+      observedThrough: now.toISOString(),
+      repositoryResults,
       ...(failedRepositories.length ? { failedRepositories } : {}),
     };
     await options.healthStore.put(succeeded);

@@ -9,7 +9,9 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm test",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run control-plane:check",
+    "control-plane:check": "npm --prefix apps/control-plane ci --workspaces=false && npm --prefix apps/control-plane run check",
+    "control-plane:build": "npm --prefix apps/control-plane run build",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint .",

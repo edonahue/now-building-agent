@@ -24,21 +24,22 @@ no Vercel, Blob, Connect, scheduler, credential, or target-site dependency.
 ## Deployment prerequisites (not provisioned by this repository)
 
 1. Create a separate Vercel project rooted at `apps/control-plane`.
-2. Connect a **private** Vercel Blob store. At deployment time, implement
-   `PrivateBlobClient` with `@vercel/blob` `put`/read calls using managed OIDC;
-   do not pass or persist a Blob token in application code.
-3. Configure Vercel Connect for GitHub with read access only to the four
-   allowlisted public repositories. Implement `connectTokenProvider` with the
-   Connect-issued short-lived token; never add a PAT fallback.
+2. Connect a **private** Vercel Blob store. The included adapter uses
+   `@vercel/blob` with managed OIDC; do not pass or persist a Blob token in
+   application code.
+3. Configure a Vercel Connect GitHub connector named
+   `now-building-readonly` with read access only to the four allowlisted public
+   repositories. The included adapter requests a short-lived token per run;
+   never add a PAT fallback.
 4. Create one Healthchecks.io daily monitor with a 24-hour period and six-hour
    grace. Set its secret ping URL only as `HEALTHCHECKS_PING_URL`.
 5. Set `CRON_SECRET` and `NOW_BUILDING_HEALTH_SECRET` as different Vercel
    environment secrets. Keep `NOW_BUILDING_DRAFT_ENABLED` absent or `0` until
    the Phase 2 evaluation corpus is explicitly approved for scheduled use.
 
-Until items 2–4 are complete, both runtime route adapters deliberately fail
-closed. Nothing is silently downgraded to a long-lived GitHub credential or
-public health endpoint.
+Until items 2–4 are complete, the configured platform SDKs fail closed.
+Nothing is silently downgraded to a long-lived GitHub credential or public
+health endpoint.
 
 ## Required runtime configuration
 

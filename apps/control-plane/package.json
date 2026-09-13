@@ -10,7 +10,10 @@
     "check": "npm run build && npm test",
     "test": "vitest run"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@vercel/blob": "^2.0.0",
+    "@vercel/connect": "^0.1.0"
+  },
   "devDependencies": {
     "typescript": "^5.9.3",
     "vitest": "^4.0.8"
