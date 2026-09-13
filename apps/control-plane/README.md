@@ -23,7 +23,9 @@ no Vercel, Blob, Connect, scheduler, credential, or target-site dependency.
 
 ## Deployment prerequisites (not provisioned by this repository)
 
-1. Create a separate Vercel project rooted at `apps/control-plane`.
+1. Create a separate Vercel project with **Root Directory** set to
+   `apps/control-plane` and Application Preset set to **Other**. The root
+   portable package is not a Vercel application and must not be deployed.
 2. Connect a **private** Vercel Blob store. The included adapter uses
    `@vercel/blob` with managed OIDC; do not pass or persist a Blob token in
    application code.

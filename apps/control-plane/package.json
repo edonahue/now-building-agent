@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@vercel/blob": "^2.0.0",
-    "@vercel/connect": "^0.1.0"
+    "@vercel/connect": "^0.1.0",
+    "openai": "^6.18.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "typescript": "^5.9.3",
