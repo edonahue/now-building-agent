@@ -2,12 +2,14 @@
 
 A portable, deterministic TypeScript core for turning authorized GitHub activity into explainable **Now Building** candidates. It deliberately stops before editorial prose or writes to any target site.
 
-## Phase 1 scope
+## Implemented scope
 
 - Canonical GitHub `SourceRef` parsing, formatting, equality, and URL derivation.
 - Normalized activity events; checked-in repository authorization; conservative episode clustering.
 - Bounded evidence packets, obvious-low-value filtering, and in-memory published/proposed deduplication.
 - Frozen public-evidence fixtures and deterministic evaluations.
+- A provider-neutral semantic classifier/writer pipeline with strict schemas,
+  factual/style validation, and a site-ready draft object that never writes.
 
 The default suite has no model calls, credentials, GitHub writes, web framework, Vercel, workflow scheduler, database, dashboard, or target-site serializer. Phase 2 adds an opt-in OpenAI evaluation adapter; it is disabled unless `RUN_LIVE_EVAL=1` is explicitly set.
 
