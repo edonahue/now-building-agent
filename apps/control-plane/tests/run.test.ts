@@ -29,7 +29,7 @@ describe("daily control-plane run", () => {
     });
     expect(result.drafts).toEqual([]);
     expect(result.state).toMatchObject({
-      status: "succeeded",
+      status: "healthy_candidates",
       eventCount: 4,
       candidateCount: 4,
       draftCount: 0,
@@ -59,9 +59,9 @@ describe("daily control-plane run", () => {
         now: new Date("2026-09-13T10:15:00Z"),
         windowHours: 168,
       }),
-    ).rejects.toThrow("GitHub rate limited");
-    expect(store.value?.status).toBe("failed");
-    expect(store.value?.errorCode).toBe("Error");
+    ).resolves.toMatchObject({ state: { status: "degraded" } });
+    expect(store.value?.status).toBe("degraded");
+    expect(store.value?.failedRepositories).toHaveLength(4);
     expect(failed).toBe(true);
   });
 });

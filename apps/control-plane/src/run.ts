@@ -71,16 +71,20 @@ export async function runDaily(options: DailyRunOptions): Promise<RunResult> {
   await options.healthStore.put(running);
   await options.healthchecks.start(id);
   try {
-    const events = (
-      await Promise.all(
-        repositories.map((repository) =>
-          options.collector.listEvents(repository, {
-            start,
-            end: now.toISOString(),
-          }),
-        ),
-      )
-    ).flat();
+    const observations = await Promise.allSettled(
+      repositories.map((repository) =>
+        options.collector.listEvents(repository, {
+          start,
+          end: now.toISOString(),
+        }),
+      ),
+    );
+    const failedRepositories = observations.flatMap((observation, index) =>
+      observation.status === "rejected" ? [repositories[index]!] : [],
+    );
+    const events = observations.flatMap((observation) =>
+      observation.status === "fulfilled" ? observation.value : [],
+    );
     const candidates = clusterEvents(events)
       .map(classifyEpisode)
       .filter((candidate) => candidate.decision !== "reject");
@@ -93,14 +97,21 @@ export async function runDaily(options: DailyRunOptions): Promise<RunResult> {
       }
     const succeeded: HealthState = {
       ...running,
-      status: "succeeded",
+      status:
+        failedRepositories.length > 0
+          ? "degraded"
+          : candidates.length > 0
+            ? "healthy_candidates"
+            : "healthy_noop",
       finishedAt: new Date().toISOString(),
       eventCount: events.length,
       candidateCount: candidates.length,
       draftCount: drafts.length,
+      ...(failedRepositories.length ? { failedRepositories } : {}),
     };
     await options.healthStore.put(succeeded);
-    await options.healthchecks.success(id);
+    if (succeeded.status === "degraded") await options.healthchecks.fail(id);
+    else await options.healthchecks.success(id);
     return { state: succeeded, events, drafts };
   } catch (error) {
     const failed = failureState(running, error);

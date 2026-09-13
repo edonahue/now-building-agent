@@ -14,13 +14,15 @@ export interface HealthcheckReporter {
 export interface HealthState {
   readonly schemaVersion: 1;
   readonly runId: string;
-  readonly status: "running" | "succeeded" | "failed";
+  readonly status:
+    "running" | "healthy_noop" | "healthy_candidates" | "degraded" | "failed";
   readonly startedAt: string;
   readonly finishedAt?: string;
   readonly repositories: readonly string[];
   readonly eventCount: number;
   readonly candidateCount: number;
   readonly draftCount: number;
+  readonly failedRepositories?: readonly string[];
   readonly errorCode?: string;
 }
 
