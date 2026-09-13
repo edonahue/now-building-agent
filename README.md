@@ -13,6 +13,11 @@ A portable, deterministic TypeScript core for turning authorized GitHub activity
 
 The default suite has no model calls, credentials, GitHub writes, web framework, Vercel, workflow scheduler, database, dashboard, or target-site serializer. Phase 2 adds an opt-in OpenAI evaluation adapter; it is disabled unless `RUN_LIVE_EVAL=1` is explicitly set.
 
+The separately deployable Phase 3 control-plane scaffold lives in
+[`apps/control-plane`](apps/control-plane). It is read-only and fails closed
+until Vercel Connect, private Blob, and external monitoring are intentionally
+provisioned; it does not change the portable core's dependency boundary.
+
 ## Development
 
 Node 22 or later is required.
