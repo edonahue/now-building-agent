@@ -13,13 +13,10 @@ const lowValue = new Set<ChangedFileFamily>([
   "ci",
   "generated",
 ]);
-const positive =
-  /\b(feat|feature|release|expand|expansion|policy|guardrail|fix|correct|research|data|reliability|integrity|kraken|packet)\b/i;
 export function classifyEpisode(episode: WorkEpisode): Candidate {
   const families = new Set(
     episode.events.flatMap((event) => event.changedFileFamilies),
   );
-  const titles = episode.events.map((event) => event.title).join(" ");
   if (
     [...families].length > 0 &&
     [...families].every((family) => lowValue.has(family))
@@ -30,14 +27,14 @@ export function classifyEpisode(episode: WorkEpisode): Candidate {
       reasons: ["only-obvious-low-value-file-families"],
     };
   if (
-    positive.test(titles) ||
+    episode.events.some((event) => event.kind === "release") ||
     families.has("application") ||
     families.has("data")
   )
     return {
       episode,
       decision: "keep",
-      reasons: ["meaningful-signal-preserved-for-semantic-review"],
+      reasons: ["structural-meaningful-signal-preserved-for-semantic-review"],
     };
   return {
     episode,

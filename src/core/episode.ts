@@ -4,10 +4,9 @@ import { formatSourceRef } from "./source-ref.js";
 export type GroupingReason =
   | "same-pr"
   | "parent-pr"
+  | "explicit-link"
   | "shared-marker"
-  | "immediate-closeout"
   | "release-after-implementation"
-  | "direct-sequence"
   | "singleton";
 export interface WorkEpisode {
   readonly id: string;

@@ -21,6 +21,10 @@ export interface ActivityEvent {
   readonly url: string;
   readonly parentPr?: number;
   readonly branch?: string;
+  /** Provider-normalized, bounded markers; never inferred from repository prose. */
+  readonly episodeMarkers: readonly string[];
+  /** A provider may assert direct source relationships after inspecting GitHub facts. */
+  readonly relatedSourceRefs: readonly SourceRef[];
   readonly changedFileFamilies: readonly ChangedFileFamily[];
   readonly labels: readonly string[];
   readonly evidence: readonly EvidenceItem[];

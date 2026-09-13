@@ -6,7 +6,7 @@ export interface PublicationRecord {
   readonly state: "published" | "proposed";
 }
 export interface DedupeResult {
-  readonly duplicate: boolean;
+  readonly outcome: "new" | "duplicate" | "amendment";
   readonly consumedRefs: readonly string[];
   readonly novelRefs: readonly string[];
 }
@@ -26,8 +26,14 @@ export function dedupeEpisode(
       }),
   );
   const consumedRefs = current.filter((ref) => consumed.has(ref));
+  const outcome =
+    consumedRefs.length === current.length
+      ? "duplicate"
+      : consumedRefs.length === 0
+        ? "new"
+        : "amendment";
   return {
-    duplicate: consumedRefs.length === current.length,
+    outcome,
     consumedRefs,
     novelRefs: current.filter((ref) => !consumed.has(ref)),
   };
