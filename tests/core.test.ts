@@ -6,7 +6,14 @@ import {
   evidencePacket,
   isEnabledRepository,
 } from "../src/index.js";
-import { kraken, networked, packet9 } from "./fixtures/events.js";
+import {
+  kraken,
+  mollCorrection,
+  networked,
+  obviousMaintenance,
+  packet9,
+  roundOneFollowups,
+} from "./fixtures/events.js";
 describe("deterministic editorial core", () => {
   it("absorbs Packet 9 closeout under its parent episode", () => {
     const episodes = clusterEvents(packet9);
@@ -25,6 +32,21 @@ describe("deterministic editorial core", () => {
     const episodes = clusterEvents(kraken);
     expect(episodes).toHaveLength(1);
     expect(evidencePacket(episodes[0]!).sourceRefs).toHaveLength(2);
+  });
+  it("groups a meaningful corrective sequence without deciding its public prose", () => {
+    const episode = clusterEvents(mollCorrection)[0]!;
+    expect(episode.events).toHaveLength(2);
+    expect(classifyEpisode(episode).decision).toBe("keep");
+  });
+  it("groups explicit Round 1 hardening without making three automatic stories", () => {
+    const episodes = clusterEvents(roundOneFollowups);
+    expect(episodes).toHaveLength(1);
+    expect(episodes[0]!.reasons).toContain("shared-marker");
+  });
+  it("rejects only obviously low-value maintenance", () => {
+    for (const episode of clusterEvents(obviousMaintenance)) {
+      expect(classifyEpisode(episode).decision).toBe("reject");
+    }
   });
   it("is idempotent over an overlapping previously published source window", () => {
     const episode = clusterEvents(packet9)[0]!;

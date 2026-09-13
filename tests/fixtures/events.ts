@@ -94,3 +94,72 @@ export const kraken = [
     families: ["application", "tests"],
   }),
 ];
+export const mollCorrection = [
+  event({
+    id: "moll-fix",
+    repository: "edonahue/charted-currents",
+    kind: "commit",
+    ref: "github:edonahue/charted-currents:commit:a1f439f93d44481b0191944b38471f7e2ef99842",
+    occurredAt: "2026-09-07T09:00:00Z",
+    title: "Moll georeference corrective sequence",
+    families: ["data"],
+  }),
+  event({
+    id: "moll-pr8",
+    repository: "edonahue/charted-currents",
+    kind: "merged-pr",
+    ref: "github:edonahue/charted-currents:pr:8",
+    occurredAt: "2026-09-08T09:00:00Z",
+    title: "Moll georeference correction",
+    families: ["data"],
+  }),
+];
+export const roundOneFollowups = [
+  event({
+    id: "np247",
+    repository: "edonahue/networked-players",
+    kind: "merged-pr",
+    ref: "github:edonahue/networked-players:pr:247",
+    occurredAt: "2026-09-08T12:00:00Z",
+    title: "Round 1 schema-v2 daily-manifest extender",
+    families: ["application", "data"],
+  }),
+  event({
+    id: "np248",
+    repository: "edonahue/networked-players",
+    kind: "merged-pr",
+    ref: "github:edonahue/networked-players:pr:248",
+    occurredAt: "2026-09-08T18:00:00Z",
+    title: "Round 1 build-parameter provenance",
+    families: ["application"],
+  }),
+  event({
+    id: "np249",
+    repository: "edonahue/networked-players",
+    kind: "merged-pr",
+    ref: "github:edonahue/networked-players:pr:249",
+    occurredAt: "2026-09-09T12:00:00Z",
+    title: "Round 1 contributor-page continuity semantics",
+    families: ["application"],
+  }),
+];
+export const obviousMaintenance = [
+  event({
+    id: "test-only",
+    repository: "edonahue/pirate-arcade-web",
+    kind: "commit",
+    ref: "github:edonahue/pirate-arcade-web:commit:f7d74505701b4809fa2b904d252a135c936a6165",
+    occurredAt: "2026-09-10T12:00:00Z",
+    title: "stabilize loader tests",
+    families: ["tests"],
+  }),
+  event({
+    id: "dependency",
+    repository: "edonahue/pirate-arcade-web",
+    kind: "commit",
+    ref: "github:edonahue/pirate-arcade-web:commit:3c17cdc4606c49d6ffa9664f871fc3bed010c50c",
+    occurredAt: "2026-09-10T13:00:00Z",
+    title: "dependency refresh",
+    families: ["dependency"],
+  }),
+];
